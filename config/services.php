@@ -43,4 +43,10 @@ return [
         'currency' => env('STRIPE_CURRENCY', 'aud'),
     ],
 
+    'openrouter' => [
+    'key' => env('OPENROUTER_API_KEY'),
+    'model' => env('OPENROUTER_MODEL', 'openrouter/free'),
+    'store_currency' => env('CHATBOT_STORE_CURRENCY', ''),
+],
+
 ];

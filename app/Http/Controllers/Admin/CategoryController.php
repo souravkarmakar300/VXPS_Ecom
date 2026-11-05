@@ -23,7 +23,7 @@ class CategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'image' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp,gif', 'max:2048'],
+            'image' => ['nullable', 'image', 'max:2048'],
         ]);
 
         $slug = $this->uniqueSlug($validated['name']);

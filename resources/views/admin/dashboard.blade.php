@@ -62,18 +62,20 @@
         </a>
 
         <!-- Stat 2: Total Orders -->
-        <div class="p-5 rounded-2xl bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800/80 shadow-xs flex items-center justify-between hover:border-emerald-400 dark:hover:border-slate-700/80 transition-all">
-            <div class="space-y-1">
-                <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Orders</span>
-                <p class="text-3xl font-black text-slate-900 dark:text-white">{{ $stats['total_orders'] }}</p>
-                <span class="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">Processed Orders</span>
+        <a href="{{ route('admin.orders.index') }}" class="block">
+            <div class="p-5 rounded-2xl bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800/80 shadow-xs flex items-center justify-between hover:border-emerald-400 dark:hover:border-slate-700/80 transition-all cursor-pointer">
+                <div class="space-y-1">
+                    <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Orders</span>
+                    <p class="text-3xl font-black text-slate-900 dark:text-white">{{ $stats['total_orders'] }}</p>
+                    <span class="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">Processed Orders</span>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shadow-inner">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                </div>
             </div>
-            <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shadow-inner">
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-            </div>
-        </div>
+        </a>
 
         <!-- Stat 3: Contact -->
         <a href="{{ route('admin.contacts.index') }}" class="block">
@@ -99,9 +101,15 @@
                 <h3 class="text-base font-bold text-slate-900 dark:text-white">Recent Orders</h3>
                 <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Real-time orders placed on the VXPS store</p>
             </div>
-            <span class="text-xs px-2.5 py-1 rounded-full bg-gray-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-gray-200 dark:border-slate-700 font-mono">
-                Total: {{ $stats['total_orders'] }}
-            </span>
+            <div class="flex items-center gap-3">
+                <span class="text-xs px-2.5 py-1 rounded-full bg-gray-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-gray-200 dark:border-slate-700 font-mono">
+                    Total: {{ $stats['total_orders'] }}
+                </span>
+                <a href="{{ route('admin.orders.index') }}" class="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 hover:underline">
+                    <span>View All</span>
+                    <span>&rarr;</span>
+                </a>
+            </div>
         </div>
 
         <div class="overflow-x-auto mt-4">
@@ -112,27 +120,40 @@
                         <th class="px-4 py-3">Customer</th>
                         <th class="px-4 py-3">Total Amount</th>
                         <th class="px-4 py-3">Date</th>
-                        <th class="px-4 py-3 rounded-r-lg text-right">Status</th>
+                        <th class="px-4 py-3 text-center">Status</th>
+                        <th class="px-4 py-3 rounded-r-lg text-right">Action</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-slate-800/60">
                     @forelse ($recentOrders as $order)
                         <tr class="hover:bg-gray-50 dark:hover:bg-slate-800/30 transition-colors">
-                            <td class="px-4 py-3.5 font-mono font-semibold text-emerald-600 dark:text-emerald-400">{{ $order->order_number }}</td>
+                            <td class="px-4 py-3.5 font-mono font-semibold">
+                                <a href="{{ route('admin.orders.show', $order) }}" class="text-emerald-600 dark:text-emerald-400 hover:underline">
+                                    {{ $order->order_number }}
+                                </a>
+                            </td>
                             <td class="px-4 py-3.5">
                                 <div class="font-semibold text-slate-900 dark:text-white">{{ $order->customer_name }}</div>
                                 <div class="text-[11px] text-slate-500 font-mono">{{ $order->customer_email }}</div>
                             </td>
                             <td class="px-4 py-3.5 font-mono text-slate-900 dark:text-white font-semibold">${{ number_format($order->total_amount, 2) }}</td>
                             <td class="px-4 py-3.5 text-slate-600 dark:text-slate-400">{{ $order->created_at->format('M d, Y') }}</td>
-                            <td class="px-4 py-3.5 text-right">
-                                @if($order->status === 'completed')
+                            <td class="px-4 py-3.5 text-center">
+                                @if(in_array($order->status, ['completed', 'delivered']))
                                     <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Completed
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> {{ ucfirst($order->status) }}
                                     </span>
-                                @elseif($order->status === 'processing')
+                                @elseif(in_array($order->status, ['processing', 'dispatched']))
                                     <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> Processing
+                                        <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> {{ ucfirst($order->status) }}
+                                    </span>
+                                @elseif($order->status === 'confirmed')
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> Confirmed
+                                    </span>
+                                @elseif($order->status === 'cancelled')
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Cancelled
                                     </span>
                                 @else
                                     <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
@@ -140,10 +161,18 @@
                                     </span>
                                 @endif
                             </td>
+                            <td class="px-4 py-3.5 text-right">
+                                <a href="{{ route('admin.orders.show', $order) }}" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 border border-emerald-500/30 transition-colors">
+                                    <span>View</span>
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </a>
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-4 py-6 text-center text-slate-500">
+                            <td colspan="6" class="px-4 py-6 text-center text-slate-500">
                                 No orders recorded yet.
                             </td>
                         </tr>

@@ -18,7 +18,7 @@
                 </div>
                 <div>
                     <h5 class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Free Delivery</h5>
-                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Orders over $79 in Australia</p>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Orders over $70 in Australia</p>
                 </div>
             </div>
 

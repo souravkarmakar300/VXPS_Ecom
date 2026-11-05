@@ -49,31 +49,10 @@ class CheckoutController extends Controller
                     'slug' => $product->slug,
                     'price' => $effectivePrice,
                     'quantity' => $qty,
-                    'image' => $product->image ? asset('storage/' . $product->image) : null,
+                    'image' => $product->display_image ?? ($product->image ? asset('storage/' . $product->image) : null),
                     'category' => $product->category->name ?? 'Hardware',
                 ];
 
-                session()->put('cart', $cart);
-            }
-        }
-
-        // If cart is completely empty, offer the first available active product as sample or empty state
-        if (empty($cart)) {
-            $sampleProduct = Product::where('status', 'active')->first();
-            if ($sampleProduct) {
-                $effectivePrice = ($sampleProduct->special_offer_price !== null && (float) $sampleProduct->special_offer_price > 0)
-                    ? (float) $sampleProduct->special_offer_price
-                    : (float) $sampleProduct->price;
-
-                $cart[$sampleProduct->id] = [
-                    'id' => $sampleProduct->id,
-                    'name' => $sampleProduct->name,
-                    'slug' => $sampleProduct->slug,
-                    'price' => $effectivePrice,
-                    'quantity' => 1,
-                    'image' => $sampleProduct->image ? asset('storage/' . $sampleProduct->image) : null,
-                    'category' => $sampleProduct->category->name ?? 'Hardware',
-                ];
                 session()->put('cart', $cart);
             }
         }
@@ -84,6 +63,9 @@ class CheckoutController extends Controller
             'items' => $cart,
             'stripeKey' => $this->stripe->publishableKey(),
             'stripeDemoMode' => $this->stripe->isDemoMode(),
+            'stripeLiveMode' => $this->stripe->isLiveMode(),
+            'stripeCurrency' => $this->stripe->currency(),
+            'amountCents' => (int) round($calculations['grandTotal'] * 100),
         ], $calculations));
     }
 
@@ -119,7 +101,7 @@ class CheckoutController extends Controller
                 'slug' => $product->slug,
                 'price' => $effectivePrice,
                 'quantity' => $quantity,
-                'image' => $product->image ? asset('storage/' . $product->image) : null,
+                'image' => $product->display_image ?? ($product->image ? asset('storage/' . $product->image) : null),
                 'category' => $product->category->name ?? 'Hardware',
             ];
         }
@@ -148,16 +130,31 @@ class CheckoutController extends Controller
         $action = $request->input('action'); // 'increase', 'decrease', or 'remove'
         $cart = session()->get('cart', []);
 
+        // Flexible key resolution (handles integer id, string id, or object id)
+        $key = null;
         if (isset($cart[$productId])) {
+            $key = $productId;
+        } elseif (is_numeric($productId) && isset($cart[(int) $productId])) {
+            $key = (int) $productId;
+        } else {
+            foreach ($cart as $k => $item) {
+                if (($item['id'] ?? null) == $productId || ($item['slug'] ?? null) == $productId) {
+                    $key = $k;
+                    break;
+                }
+            }
+        }
+
+        if ($key !== null && isset($cart[$key])) {
             if ($action === 'increase') {
-                $cart[$productId]['quantity']++;
+                $cart[$key]['quantity']++;
             } elseif ($action === 'decrease') {
-                $cart[$productId]['quantity']--;
-                if ($cart[$productId]['quantity'] <= 0) {
-                    unset($cart[$productId]);
+                $cart[$key]['quantity']--;
+                if ($cart[$key]['quantity'] <= 0) {
+                    unset($cart[$key]);
                 }
             } elseif ($action === 'remove') {
-                unset($cart[$productId]);
+                unset($cart[$key]);
             }
             session()->put('cart', $cart);
         }
@@ -206,9 +203,6 @@ class CheckoutController extends Controller
             'shipping_method' => ['nullable', 'string', 'in:standard,express'],
             'payment_method' => ['nullable', 'string', 'in:card,apple_pay,link,stripe'],
             'payment_intent_id' => ['nullable', 'string', 'max:120'],
-            'card_number' => ['nullable', 'string', 'max:30'],
-            'card_expiry' => ['nullable', 'string', 'max:10'],
-            'card_cvc' => ['nullable', 'string', 'max:4'],
             'notes' => ['nullable', 'string', 'max:1000'],
         ]);
 
@@ -218,26 +212,30 @@ class CheckoutController extends Controller
             return redirect()->route('shop')->with('error', 'Your shopping cart is empty.');
         }
 
-        $paymentMethod = $validated['payment_method'] ?? 'card';
+        $paymentMethod = $validated['payment_method'] ?? session('checkout_payment_method', 'card');
         $paymentIntentId = $validated['payment_intent_id']
             ?? session('checkout_payment_intent_id')
             ?? '';
 
-        // Ensure a payment intent exists (demo or Stripe).
-        if ($paymentIntentId === '') {
-            $calculationsPreview = $this->calculateTotals($cart);
-            $intent = $this->stripe->createPaymentIntent(
-                (int) round($calculationsPreview['grandTotal'] * 100),
-                'aud'
-            );
-            $paymentIntentId = $intent['id'];
+        $calculations = $this->calculateTotals($cart);
+
+        // Orders are only created after Stripe.js (or demo) confirmation.
+        // Never accept raw card PANs on the server (PCI).
+        if ($paymentIntentId === '' || ! session('checkout_payment_confirmed')) {
+            return redirect()
+                ->route('checkout')
+                ->withInput()
+                ->with('error', 'Please complete payment before placing your order.');
         }
 
-        $payment = $this->stripe->confirmPayment(
-            $paymentIntentId,
-            $paymentMethod,
-            $validated['card_number'] ?? null
-        );
+        try {
+            $payment = $this->stripe->confirmPayment($paymentIntentId, $paymentMethod);
+        } catch (\Throwable $e) {
+            return redirect()
+                ->route('checkout')
+                ->withInput()
+                ->with('error', $e->getMessage());
+        }
 
         if (! $payment['ok']) {
             return redirect()
@@ -247,7 +245,6 @@ class CheckoutController extends Controller
         }
 
         $shippingMethod = 'standard';
-        $calculations = $this->calculateTotals($cart);
 
         $orderNumber = 'VXPS-' . date('Y') . '-' . strtoupper(Str::random(6));
 
@@ -305,6 +302,7 @@ class CheckoutController extends Controller
             'checkout_payment_method',
             'checkout_payment_confirmed',
         ]);
+        session()->save();
 
         return redirect()->route('checkout.success', $order->order_number);
     }
@@ -329,17 +327,17 @@ class CheckoutController extends Controller
             $subtotal += ((float) ($item['price'] ?? 0)) * ((int) ($item['quantity'] ?? 1));
         }
 
-        // Shipping calculation: Free standard shipping over $79 AUD, otherwise $9.95
-        $shippingCost = ($subtotal >= 79.0) ? 0.00 : 9.95;
+        // Shipping calculation: Free standard shipping over $70 AUD, otherwise $9.99 (0 for empty cart)
+        $shippingCost = ($subtotal <= 0 || $subtotal >= 70.0) ? 0.00 : 9.99;
         $grandTotal = max(0.0, $subtotal + $shippingCost);
 
         return [
             'subtotal' => $subtotal,
             'shippingCost' => $shippingCost,
             'grandTotal' => $grandTotal,
-            'freeShippingQualified' => ($subtotal >= 79.0),
-            'freeShippingThreshold' => 79.0,
-            'amountNeededForFreeShipping' => max(0.0, 79.0 - $subtotal),
+            'freeShippingQualified' => ($subtotal >= 70.0),
+            'freeShippingThreshold' => 70.0,
+            'amountNeededForFreeShipping' => max(0.0, 70.0 - $subtotal),
         ];
     }
 }

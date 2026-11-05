@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', $product->name . ' | VXPS Australia')
+@section('meta_description', '')
+@section('meta_keywords', '')
 
 @section('meta')
     <meta name="description" content="{{ Str::limit(strip_tags($product->description ?? 'Explore ' . $product->name . ' at VXPS Australia. Engineered for high performance, reliability and safety.'), 155) }}">
@@ -347,4 +349,90 @@
         </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    const UNIT_PRICE = {{ json_encode((float) $effectivePrice) }};
+    const CART_ADD_URL = @json(route('cart.add'));
+    const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]')?.content || '';
+
+    function switchMainImage(url, thumbBtn) {
+        const main = document.getElementById('main-product-image');
+        if (main) main.src = url;
+
+        document.querySelectorAll('.gallery-thumb').forEach((btn) => {
+            btn.classList.remove('border-indigo-600', 'shadow-md', 'ring-2', 'ring-indigo-500/20');
+            btn.classList.add('border-gray-200', 'dark:border-slate-800');
+        });
+
+        if (thumbBtn) {
+            thumbBtn.classList.remove('border-gray-200', 'dark:border-slate-800');
+            thumbBtn.classList.add('border-indigo-600', 'shadow-md', 'ring-2', 'ring-indigo-500/20');
+        }
+    }
+
+    function changeQuantity(delta) {
+        const input = document.getElementById('product-quantity');
+        if (!input) return;
+
+        let qty = parseInt(input.value, 10) || 1;
+        qty = Math.min(99, Math.max(1, qty + delta));
+        input.value = qty;
+
+        const subtotal = document.getElementById('live-subtotal');
+        if (subtotal) {
+            subtotal.textContent = '$' + (UNIT_PRICE * qty).toFixed(2);
+        }
+    }
+
+    function switchDetailTab(tabKey) {
+        document.querySelectorAll('.detail-tab-pane').forEach((pane) => pane.classList.add('hidden'));
+        document.querySelectorAll('.detail-tab-btn').forEach((btn) => {
+            btn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-indigo-600', 'dark:text-indigo-400', 'shadow-xs');
+            btn.classList.add('text-slate-600', 'dark:text-slate-400');
+        });
+
+        const pane = document.getElementById('tab-pane-' + tabKey);
+        const btn = document.getElementById('tab-btn-' + tabKey);
+        if (pane) pane.classList.remove('hidden');
+        if (btn) {
+            btn.classList.remove('text-slate-600', 'dark:text-slate-400');
+            btn.classList.add('bg-white', 'dark:bg-slate-800', 'text-indigo-600', 'dark:text-indigo-400', 'shadow-xs');
+        }
+    }
+
+    async function triggerAddToCart(productId, productName) {
+        const qty = parseInt(document.getElementById('product-quantity')?.value || '1', 10) || 1;
+
+        try {
+            const res = await fetch(CART_ADD_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': CSRF_TOKEN,
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    quantity: qty,
+                }),
+            });
+
+            const data = await res.json();
+            if (!res.ok || !data.success) {
+                throw new Error(data.message || 'Could not add to cart.');
+            }
+
+            alert((productName || 'Product') + ' added to cart (' + qty + ').');
+        } catch (err) {
+            alert(err.message || 'Could not add to cart.');
+        }
+    }
+
+    function instantCheckout(slug) {
+        const qty = parseInt(document.getElementById('product-quantity')?.value || '1', 10) || 1;
+        window.location.href = @json(route('checkout')) + '?product=' + encodeURIComponent(slug) + '&qty=' + qty;
+    }
+</script>
+@endpush
 

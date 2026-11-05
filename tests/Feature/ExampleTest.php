@@ -2,12 +2,10 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
-    use RefreshDatabase;
     /**
      * A basic test example.
      */
@@ -233,5 +231,109 @@ class ExampleTest extends TestCase
         $successResponse->assertSee('Adelaide');
 
         \Illuminate\Support\Facades\Mail::assertSent(\App\Mail\OrderConfirmationMail::class);
+    }
+
+    public function test_cart_quantity_can_be_incremented_decremented_and_removed(): void
+    {
+        $this->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class]);
+
+        $product = \App\Models\Product::firstOrCreate(
+            ['slug' => 'test-cart-adjust'],
+            [
+                'name' => 'Adjustable Stand',
+                'description' => 'Stand for devices',
+                'price' => 50.00,
+                'status' => 'active',
+            ]
+        );
+
+        $cart = [
+            $product->id => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'slug' => $product->slug,
+                'price' => 50.00,
+                'quantity' => 2,
+                'image' => null,
+                'category' => 'Accessories',
+            ]
+        ];
+
+        // 1. Increment
+        $incResponse = $this->withSession(['cart' => $cart])
+            ->postJson(route('cart.quantity'), [
+                'product_id' => $product->id,
+                'action' => 'increase',
+            ]);
+
+        $incResponse->assertStatus(200);
+        $incResponse->assertJson([
+            'success' => true,
+            'total_items' => 3,
+            'subtotal' => 150.00,
+        ]);
+
+        // 2. Decrement
+        $decResponse = $this->withSession(['cart' => $cart])
+            ->postJson(route('cart.quantity'), [
+                'product_id' => $product->id,
+                'action' => 'decrease',
+            ]);
+
+        $decResponse->assertStatus(200);
+        $decResponse->assertJson([
+            'success' => true,
+            'total_items' => 1,
+            'subtotal' => 50.00,
+        ]);
+
+        // 3. Remove
+        $remResponse = $this->withSession(['cart' => $cart])
+            ->postJson(route('cart.quantity'), [
+                'product_id' => $product->id,
+                'action' => 'remove',
+            ]);
+
+        $remResponse->assertStatus(200);
+        $remResponse->assertJson([
+            'success' => true,
+            'total_items' => 0,
+            'subtotal' => 0.00,
+        ]);
+    }
+
+    public function test_checkout_page_renders_cart_items_with_controls(): void
+    {
+        $product = \App\Models\Product::firstOrCreate(
+            ['slug' => 'test-checkout-controls'],
+            [
+                'name' => 'Ultra Fast Charger 65W',
+                'description' => 'Charger',
+                'price' => 69.99,
+                'status' => 'active',
+            ]
+        );
+
+        $cart = [
+            $product->id => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'slug' => $product->slug,
+                'price' => 69.99,
+                'quantity' => 1,
+                'image' => null,
+                'category' => 'Charging',
+            ]
+        ];
+
+        $response = $this->withSession(['cart' => $cart])->get('/checkout');
+
+        $response->assertStatus(200);
+        $response->assertSee('Ultra Fast Charger 65W');
+        $response->assertSee('updateCartItem');
+        $response->assertSee('btn-decrease-' . $product->id);
+        $response->assertSee('btn-increase-' . $product->id);
+        $response->assertSee('btn-remove-' . $product->id);
+        $response->assertSee('Remove');
     }
 }

@@ -3,14 +3,12 @@
 namespace Tests\Feature;
 
 use App\Models\Admin;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class AdminAuthTest extends TestCase
 {
-    use RefreshDatabase;
     public function test_unauthenticated_admin_is_redirected_to_login_when_accessing_dashboard(): void
     {
         $response = $this->get('/admin/dashboard');

@@ -4,30 +4,41 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Website Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
+
+    <!-- SEO Meta Tags -->
     <title>@yield('title', 'VXPS - Everyday Electronics & Smart Tech')</title>
 
-    @hasSection('meta')
-        @yield('meta')
-    @else
-        <meta name="description" content="Discover portable chargers, fast charging power banks, and modern lifestyle tech essentials engineered for reliable daily performance at VXPS Australia.">
-    @endif
+    <meta name="description"
+          content="@yield('meta_description', 'Discover portable chargers, fast charging power banks, and modern lifestyle tech essentials engineered for reliable daily performance at VXPS Australia.')">
 
-    <!-- Dark/Light theme initializer before DOM paints to prevent FOUC -->
+    <meta name="keywords"
+          content="@yield('meta_keywords', 'VXPS, electronics, charging cables, power banks, smart tech, Australia')">
+
+    <!-- Dark/Light Theme Initializer -->
     <script>
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (
+            localStorage.theme === 'dark' ||
+            (!('theme' in localStorage) &&
+                window.matchMedia('(prefers-color-scheme: dark)').matches)
+        ) {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
         }
     </script>
 
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Vite Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
@@ -360,6 +371,12 @@
 
     @stack('scripts')
     @yield('scripts')
+
+
+    {{-- VXPS AI Shopping Assistant --}}
+{{-- @include('partials.chatbot') --}}
+
+
 </body>
 </html>
 

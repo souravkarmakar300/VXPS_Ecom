@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'About Us | VXPS - Everyday Electronics & Smart Tech')
+@section('meta_description', 'Explore VXPS Pty Ltd, your online destination for quality electronics, smart gadgets, toys, and kids’ products. Shop products at great value.')
+@section('meta_keywords', '')
 
 @section('meta')
     <meta name="description" content="Learn about VXPS Australia, our philosophy, and our commitment to providing top-quality electronic gadgets, chargers, decorative lights, and educational toys.">

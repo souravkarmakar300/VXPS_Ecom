@@ -1,11 +1,14 @@
 @extends('layouts.app')
 
+{{-- Keywords --}}
 @section('title', 'VXPS - Portable Power & Smart Tech Essentials')
+@section('meta_description', 'Discover VXPS: Your destination for portable power solutions, smart tech accessories, and essential electronics. Explore our range of car jump starters, power banks, charging cables, and more.')
+@section('meta_keywords', 'VXPS, portable power, smart tech, car jump starters, power banks, charging cables, electronics, tech accessories, reliable performance, automotive solutions')
 
 @section('content')
         <!-- 1. HERO BANNER CAROUSEL (PulseCharge Style Slideshow) -->
         <section id="home" class="relative w-full overflow-hidden bg-slate-950 group">
-            <div id="hero-carousel" class="relative w-full h-[150px] sm:h-[400px] lg:h-[480px] xl:h-[620px] overflow-hidden">
+            <div id="hero-carousel" class="relative w-full h-[430px] sm:h-[480px] lg:h-[540px] xl:h-[620px] overflow-hidden">
                 
                 <!-- Slide 1: Jump 3 -->
                 <div class="carousel-slide absolute inset-0 w-full h-full opacity-100 transition-opacity duration-700 ease-in-out pointer-events-auto">
@@ -16,29 +19,28 @@
                         class="absolute inset-0 w-full h-full object-cover object-center"
                     >
                     <!-- Dark Gradient Overlay for optimal readability -->
-                    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/70 to-black/30 sm:to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/85 sm:via-slate-950/70 to-slate-950/50 sm:to-transparent"></div>
 
                     <!-- Inner Floating Content -->
-                    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-start">
-                        <div class="max-w-2xl space-y-4 sm:space-y-6">
+                    <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-start pt-2 pb-10 sm:py-0">
+                        <div class="max-w-2xl space-y-2 sm:space-y-4 md:space-y-6">
 
-                            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.05] drop-shadow-md">
+                            <h1 class="text-2xl xs:text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white tracking-tight leading-[1.15] drop-shadow-md">
                                 Power Up Every Journey
                             </h1>
 
-                            <p class="text-base sm:text-xl text-slate-200 leading-relaxed font-medium drop-shadow-sm max-w-xl">
+                            <p class="text-xs sm:text-base lg:text-lg text-slate-200 leading-relaxed font-medium drop-shadow-sm max-w-xl line-clamp-3 sm:line-clamp-none">
                                 Discover reliable car jump starters and automotive power solutions designed to keep you moving. Get dependable performance and peace of mind wherever the road takes you.
                             </p>
 
-
                             <!-- BUY NOW Button -->
-                            <div class="pt-2">
+                            <div class="pt-2 sm:pt-3">
                                 <a 
                                     href="{{ route('shop') }}" 
-                                    class="inline-flex items-center gap-2.5 px-8 sm:px-10 py-4 rounded-full bg-white text-slate-950 hover:bg-slate-200 font-black text-sm tracking-wider uppercase shadow-2xl hover:scale-105 transition-all duration-200 cursor-pointer"
+                                    class="inline-flex items-center gap-2 px-6 py-2.5 sm:px-8 sm:py-3.5 rounded-full bg-white text-slate-950 hover:bg-slate-200 font-black text-xs sm:text-sm tracking-wider uppercase shadow-2xl hover:scale-105 transition-all duration-200 cursor-pointer"
                                 >
                                     <span>BUY NOW</span>
-                                    <svg class="w-4 h-4 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                     </svg>
                                 </a>
@@ -55,28 +57,28 @@
                         alt="Infinity Luxe MagSafe Portable Charger" 
                         class="absolute inset-0 w-full h-full object-cover object-center"
                     >
-                    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/70 to-black/30 sm:to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/85 sm:via-slate-950/70 to-slate-950/50 sm:to-transparent"></div>
 
                     <!-- Inner Floating Content -->
-                    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-start">
-                        <div class="max-w-2xl space-y-4 sm:space-y-6">
+                    <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-start pt-2 pb-10 sm:py-0">
+                        <div class="max-w-2xl space-y-2 sm:space-y-4 md:space-y-6">
 
-                            <h2 class="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.05] drop-shadow-md">
+                            <h2 class="text-2xl xs:text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white tracking-tight leading-[1.15] drop-shadow-md">
                                 Capture Every Moment, Anywhere
                             </h2>
 
-                            <p class="text-base sm:text-xl text-slate-200 leading-relaxed font-medium drop-shadow-sm max-w-xl">
+                            <p class="text-xs sm:text-base lg:text-lg text-slate-200 leading-relaxed font-medium drop-shadow-sm max-w-xl line-clamp-3 sm:line-clamp-none">
                                 Discover compact pocket cameras designed to capture life's special moments with ease. Enjoy portability, convenience, and stunning memories wherever your adventures take you.
                             </p>
 
                             <!-- BUY NOW Button -->
-                            <div class="pt-2">
+                            <div class="pt-2 sm:pt-3">
                                 <a 
                                     href="{{ route('shop') }}" 
-                                    class="inline-flex items-center gap-2.5 px-8 sm:px-10 py-4 rounded-full bg-white text-slate-950 hover:bg-slate-200 font-black text-sm tracking-wider uppercase shadow-2xl hover:scale-105 transition-all duration-200 cursor-pointer"
+                                    class="inline-flex items-center gap-2 px-6 py-2.5 sm:px-8 sm:py-3.5 rounded-full bg-white text-slate-950 hover:bg-slate-200 font-black text-xs sm:text-sm tracking-wider uppercase shadow-2xl hover:scale-105 transition-all duration-200 cursor-pointer"
                                 >
                                     <span>BUY NOW</span>
-                                    <svg class="w-4 h-4 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                     </svg>
                                 </a>
@@ -93,28 +95,28 @@
                         alt="Discovery Multi-Port High-Capacity Power Bank" 
                         class="absolute inset-0 w-full h-full object-cover object-center"
                     >
-                    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/70 to-black/30 sm:to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/85 sm:via-slate-950/70 to-slate-950/50 sm:to-transparent"></div>
 
                     <!-- Inner Floating Content -->
-                    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-start">
-                        <div class="max-w-2xl space-y-4 sm:space-y-6">
+                    <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-start pt-2 pb-10 sm:py-0">
+                        <div class="max-w-2xl space-y-2 sm:space-y-4 md:space-y-6">
 
-                            <h2 class="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.05] drop-shadow-md">
+                            <h2 class="text-2xl xs:text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white tracking-tight leading-[1.15] drop-shadow-md">
                                 Smart Tech Accessories
                             </h2>
 
-                            <p class="text-base sm:text-xl text-slate-200 leading-relaxed font-medium drop-shadow-sm max-w-xl">
+                            <p class="text-xs sm:text-base lg:text-lg text-slate-200 leading-relaxed font-medium drop-shadow-sm max-w-xl line-clamp-3 sm:line-clamp-none">
                                 Upgrade your everyday experience with practical, modern tech accessories that combine convenience, performance, and quality at budget-friendly prices.
                             </p>
 
                             <!-- BUY NOW Button -->
-                            <div class="pt-2">
+                            <div class="pt-2 sm:pt-3">
                                 <a 
                                     href="{{ route('shop') }}" 
-                                    class="inline-flex items-center gap-2.5 px-8 sm:px-10 py-4 rounded-full bg-white text-slate-950 hover:bg-slate-200 font-black text-sm tracking-wider uppercase shadow-2xl hover:scale-105 transition-all duration-200 cursor-pointer"
+                                    class="inline-flex items-center gap-2 px-6 py-2.5 sm:px-8 sm:py-3.5 rounded-full bg-white text-slate-950 hover:bg-slate-200 font-black text-xs sm:text-sm tracking-wider uppercase shadow-2xl hover:scale-105 transition-all duration-200 cursor-pointer"
                                 >
                                     <span>BUY NOW</span>
-                                    <svg class="w-4 h-4 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                     </svg>
                                 </a>
@@ -123,11 +125,11 @@
                     </div>
                 </div>
 
-                <!-- Navigation Chevrons -->
+                <!-- Navigation Chevrons (Hidden on mobile to avoid covering text, visible from md up) -->
                 <button 
                     type="button" 
                     onclick="prevSlide(); resetCarouselTimer();" 
-                    class="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-slate-950/60 hover:bg-slate-950 border border-white/20 text-white flex items-center justify-center transition-all duration-200 backdrop-blur-md cursor-pointer hover:scale-110 shadow-lg"
+                    class="hidden md:flex absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-slate-950/60 hover:bg-slate-950 border border-white/20 text-white items-center justify-center transition-all duration-200 backdrop-blur-md cursor-pointer hover:scale-110 shadow-lg"
                     aria-label="Previous slide"
                 >
                     <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -138,7 +140,7 @@
                 <button 
                     type="button" 
                     onclick="nextSlide(); resetCarouselTimer();" 
-                    class="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-slate-950/60 hover:bg-slate-950 border border-white/20 text-white flex items-center justify-center transition-all duration-200 backdrop-blur-md cursor-pointer hover:scale-110 shadow-lg"
+                    class="hidden md:flex absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-slate-950/60 hover:bg-slate-950 border border-white/20 text-white items-center justify-center transition-all duration-200 backdrop-blur-md cursor-pointer hover:scale-110 shadow-lg"
                     aria-label="Next slide"
                 >
                     <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -147,23 +149,23 @@
                 </button>
 
                 <!-- Indicator Dots / Pills -->
-                <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5">
+                <div class="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
                     <button 
                         type="button" 
                         onclick="goToSlide(0)" 
-                        class="carousel-dot h-2.5 rounded-full transition-all duration-300 w-8 bg-white cursor-pointer"
+                        class="carousel-dot h-2 sm:h-2.5 rounded-full transition-all duration-300 w-6 sm:w-8 bg-white cursor-pointer"
                         aria-label="Go to slide 1"
                     ></button>
                     <button 
                         type="button" 
                         onclick="goToSlide(1)" 
-                        class="carousel-dot h-2.5 rounded-full transition-all duration-300 w-2.5 bg-white/40 hover:bg-white/70 cursor-pointer"
+                        class="carousel-dot h-2 sm:h-2.5 rounded-full transition-all duration-300 w-2 sm:w-2.5 bg-white/40 hover:bg-white/70 cursor-pointer"
                         aria-label="Go to slide 2"
                     ></button>
                     <button 
                         type="button" 
                         onclick="goToSlide(2)" 
-                        class="carousel-dot h-2.5 rounded-full transition-all duration-300 w-2.5 bg-white/40 hover:bg-white/70 cursor-pointer"
+                        class="carousel-dot h-2 sm:h-2.5 rounded-full transition-all duration-300 w-2 sm:w-2.5 bg-white/40 hover:bg-white/70 cursor-pointer"
                         aria-label="Go to slide 3"
                     ></button>
                 </div>
@@ -291,7 +293,7 @@
                     poster="{{ asset('videos/fast_charging_cables_poster.jpg') }}"
                     class="w-full h-full object-cover object-center"
                 >
-                    <source src="{{ asset('videos/Digital Display Data Cable_VXPS_1.mp4') }}" type="video/mp4">
+                    <source src="{{ asset('videos/Robot Multi-Function Magnetic Wireless Charger_2.mp4') }}" type="video/mp4">
                     {{-- <source src="https://www.pulsecharge.com.au/cdn/shop/videos/c/vp/95cec4bcf94e42c19705c4d0465f2fff/95cec4bcf94e42c19705c4d0465f2fff.HD-1080p-2.5Mbps-92169599.mp4?v=0" type="video/mp4"> --}}
                 </video>
                 <!-- Directional gradient overlay to ensure text contrast while keeping cable and phone clearly visible -->
@@ -299,26 +301,40 @@
             </div>
 
             <!-- Content Overlay (Bottom-Left / Mid-Left) -->
-            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 sm:py-20 lg:py-24">
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 sm:py-20 lg:py-24 ">
                 <div class="max-w-xl text-left">
-                    <p class="text-xs sm:text-sm font-semibold tracking-widest uppercase text-neutral-600 dark:text-neutral-400 mb-2 sm:mb-3">
-                        NEW!
-                    </p>
-                    <h2 class="text-2xl uppercase sm:text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight text-neutral-900 dark:text-white uppercase leading-tight mb-4 sm:mb-5">
-                        Fast Charging. Reliable Connection.
-                    </h2>
-                    <p class="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed max-w-md mb-6 sm:mb-8">
-                        Power your devices with high-quality charging cables designed for fast, reliable performance and everyday durability. Enjoy seamless connectivity and dependable charging wherever life takes you.
-                    </p>
-                    <div>
-                        <a 
-                            href="{{ route('shop') }}" 
-                            class="inline-block px-8 py-3.5 bg-green-900 hover:bg-yellow-500 text-white text-xs font-bold tracking-widest uppercase transition-all duration-200 shadow-md hover:shadow-lg active:scale-95"
-                        >
-                            SHOP NOW
-                        </a>
-                    </div>
+
+                <!-- Eyebrow -->
+                <p class="text-xs sm:text-sm font-semibold tracking-widest uppercase text-neutral-600 dark:text-neutral-400 mb-2 sm:mb-3">
+                    NEW!
+                </p>
+
+                <!-- Main Heading -->
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight text-neutral-900 dark:text-white leading-tight mb-4 sm:mb-5">
+                    SMART CHARGING. SIMPLIFIED.
+                </h2>
+
+                <!-- Description -->
+                <p class="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed max-w-md mb-5 sm:mb-6">
+                    Experience the future of wireless charging with the Robot Multi-Function Magnetic Wireless Charger. Enjoy effortless charging, versatile functionality, and a smarter way to power your everyday devices.
+                </p>
+
+                <!-- Marketing Tagline -->
+                <p class="text-xs sm:text-sm font-extrabold tracking-[0.18em] uppercase text-emerald-700 dark:text-emerald-400 mb-6 sm:mb-8">
+                    POWER MORE. CARRY LESS.
+                </p>
+
+                <!-- CTA Button -->
+                <div>
+                    <a
+                        href="{{ route('shop') }}"
+                        class="inline-block px-8 py-3.5 bg-green-900 hover:bg-yellow-500 text-white text-xs font-bold tracking-widest uppercase transition-all duration-200 shadow-md hover:shadow-lg active:scale-95"
+                    >
+                        SHOP NOW
+                    </a>
                 </div>
+
+            </div>
             </div>
         </section>
 
@@ -335,7 +351,8 @@
                         <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">High-demand electronics engineered for safety, speed, and long-term endurance.</p>
                     </div>
 
-                    <a href="#shop" class="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 dark:hover:text-emerald-300 flex items-center gap-1.5">
+                    <a href="{{ route('shop') }}"
+                    class="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow-md transition-all duration-300 hover:bg-yellow-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
                         <span>Browse All Products</span>
                         <span>&rarr;</span>
                     </a>
@@ -365,203 +382,163 @@
                 <div class="text-center max-w-3xl mx-auto mb-14">
                     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-bold uppercase tracking-widest mb-3">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                        CHARGING ESSENTIALS
+                        FEATURED FINDS
                     </span>
-                    <h2 class="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">Essential Chargers for Everyday</h2>
-                    <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-2">Three distinct power architectures engineered for pocket mobility, laptop workstations, and active lifestyle.</p>
+                    <h2 class="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">Discover More. Experience Better.</h2>
+                    <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-2">From smart technology to everyday essentials, explore a handpicked selection of products designed to make work, travel, and everyday life smarter and easier.</p>
                 </div>
 
-                <!-- 3 Distinct Feature Matrix Cards (Pure UI/SVG - No Images) -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Format 1: Infinity Luxe Series -->
-                    <div class="group relative rounded-3xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800/80 p-7 hover:border-emerald-500/50 hover:shadow-2xl dark:hover:shadow-emerald-950/30 transition-all duration-300 flex flex-col justify-between">
-                        <div class="space-y-6">
-                            <!-- Card Top Icon & Format Pill -->
-                            <div class="flex items-center justify-between">
-                                <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center border border-emerald-500/20 shadow-inner group-hover:scale-105 transition-transform duration-300">
-                                    <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                                        <circle cx="12" cy="12" r="9" stroke-dasharray="2 3" />
-                                        <circle cx="12" cy="12" r="5" />
-                                        <path d="M13 8l-3 4.5h2.5L11 16" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-300 border border-emerald-500/30">
-                                    15W MagSafe Qi
-                                </span>
-                            </div>
+                <!-- 3 Distinct Cards (Custom Attachment Design with White Image Box & Yellow BUY button) -->
+                @php
+                    $showcaseProducts = (isset($essentialProducts) && $essentialProducts->count()) 
+                        ? $essentialProducts 
+                        : ((isset($products) && $products->count()) ? $products->take(3) : collect());
+                @endphp
 
-                            <!-- Header -->
-                            <div class="space-y-2">
-                                <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                                    WIRELESS &amp; MAGNETIC
-                                </span>
-                                <h3 class="text-2xl font-black text-slate-900 dark:text-white">
-                                    Infinity Luxe Series
-                                </h3>
-                                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
-                                    Ultra-compact magnetic power bank featuring an integrated aerospace aluminum kickstand. Snaps flush to iPhone and Android Qi devices for simultaneous wireless and USB-C pass-through power.
-                                </p>
-                            </div>
+                @if($showcaseProducts->count() > 0)
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+                        @foreach($showcaseProducts as $item)
+                            @php
+                                $displayPrice = ($item->special_offer_price !== null && (float)$item->special_offer_price > 0)
+                                    ? (float)$item->special_offer_price
+                                    : (float)$item->price;
+                            @endphp
+                            <div class="group relative flex flex-col justify-between bg-[#0B1222] dark:bg-[#070c18] border border-blue-900/50 hover:border-blue-500/60 rounded-[28px] p-4 sm:p-5 shadow-xl shadow-blue-950/30 transition-all duration-300 hover:-translate-y-1">
+                                <div>
+                                    <!-- Inner White Card for Product Image -->
+                                    <div class="relative w-full aspect-4/3 sm:aspect-square bg-white rounded-2xl p-4 sm:p-6 flex items-center justify-center overflow-hidden">
+                                        <a href="{{ route('product.show', $item->slug) }}" class="w-full h-full flex items-center justify-center">
+                                            <img 
+                                                src="{{ $item->display_image }}" 
+                                                alt="{{ $item->name }}" 
+                                                class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                                            >
+                                        </a>
 
-                            <!-- Spec Matrix List -->
-                            <div class="space-y-2.5 pt-2 border-t border-gray-100 dark:border-slate-800/80 text-xs">
-                                <div class="flex items-center gap-2.5 text-slate-700 dark:text-slate-300">
-                                    <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
-                                    <span>10,000mAh High-Density Polymer Cell</span>
+                                        <!-- Category Pill Badge on top-right -->
+                                        <span class="absolute top-3 right-3 px-3 py-1 rounded-xl bg-slate-900/90 text-white text-[11px] font-bold tracking-wide shadow-sm backdrop-blur-xs pointer-events-none">
+                                            {{ $item->category->name ?? 'Technology' }}
+                                        </span>
+                                    </div>
+
+                                    <!-- Rating & Stock Status -->
+                                    <div class="mt-4 flex items-center justify-between text-xs">
+                                        <div class="flex items-center gap-1.5">
+                                            <div class="flex items-center text-amber-400">
+                                                @for($s = 0; $s < 5; $s++)
+                                                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
+                                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                                    </svg>
+                                                @endfor
+                                            </div>
+                                            <span class="text-amber-400 font-bold text-xs">4.9</span>
+                                        </div>
+
+                                        <div class="flex items-center gap-1.5 text-emerald-400 font-bold text-xs">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                            <span>In Stock</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Title -->
+                                    <h3 class="mt-2.5 font-black text-white text-lg sm:text-xl line-clamp-1 group-hover:text-amber-300 transition-colors">
+                                        <a href="{{ route('product.show', $item->slug) }}">
+                                            {{ $item->name }}
+                                        </a>
+                                    </h3>
+
+                                    <!-- Description -->
+                                    <p class="text-xs sm:text-sm text-slate-400 line-clamp-2 mt-1 leading-relaxed">
+                                        {{ Str::limit(strip_tags($item->description), 85) }}
+                                    </p>
                                 </div>
-                                <div class="flex items-center gap-2.5 text-slate-700 dark:text-slate-300">
-                                    <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
-                                    <span>15W Fast Magnetic Wireless Induction</span>
-                                </div>
-                                <div class="flex items-center gap-2.5 text-slate-700 dark:text-slate-300">
-                                    <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
-                                    <span>Folding Portrait &amp; Landscape Kickstand</span>
-                                </div>
-                                <div class="flex items-center gap-2.5 text-slate-700 dark:text-slate-300">
-                                    <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
-                                    <span>USB-C 20W Bi-Directional Power Delivery</span>
+
+                                <!-- Bottom Row: PRICE and Yellow BUY Button -->
+                                <div class="mt-5 pt-3.5 border-t border-slate-800/80 flex items-center justify-between gap-3">
+                                    <div>
+                                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block leading-none mb-1">PRICE</span>
+                                        <div class="text-xl sm:text-2xl font-black text-white tracking-tight font-mono">
+                                            ${{ number_format($displayPrice, 2) }}
+                                        </div>
+                                    </div>
+
+                                    <form action="{{ route('cart.add') }}" method="POST" class="shrink-0">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $item->id }}">
+                                        <input type="hidden" name="quantity" value="1">
+                                        <button 
+                                            type="submit" 
+                                            class="px-5 py-2.5 rounded-xl bg-[#FFE566] hover:bg-[#fed634] active:scale-95 text-slate-950 font-black text-xs sm:text-sm tracking-wider uppercase transition-all duration-200 flex items-center gap-2 shadow-md hover:shadow-yellow-500/20 cursor-pointer"
+                                        >
+                                            <svg class="w-4 h-4 text-slate-950 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                            </svg>
+                                            <span>BUY</span>
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Card Footer -->
-                        <div class="mt-8 pt-5 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between">
-                            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Pocket Mobility</span>
-                            <a href="{{ route('shop') }}" class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400 group-hover:text-emerald-500 dark:group-hover:text-emerald-300 group-hover:translate-x-1 transition-all">
-                                <span>Explore Series</span>
-                                <span>&rarr;</span>
-                            </a>
-                        </div>
+                        @endforeach
                     </div>
+                @endif
+            </div>
+        </section>
 
-                    <!-- Format 2: Discovery Hub Series -->
-                    <div class="group relative rounded-3xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800/80 p-7 hover:border-teal-500/50 hover:shadow-2xl dark:hover:shadow-teal-950/30 transition-all duration-300 flex flex-col justify-between">
-                        <div class="space-y-6">
-                            <!-- Card Top Icon & Format Pill -->
-                            <div class="flex items-center justify-between">
-                                <div class="w-14 h-14 rounded-2xl bg-teal-500/10 dark:bg-teal-500/20 text-teal-600 dark:text-teal-400 flex items-center justify-center border border-teal-500/20 shadow-inner group-hover:scale-105 transition-transform duration-300">
-                                    <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                                        <rect x="3" y="4" width="18" height="12" rx="2" />
-                                        <path d="M2 18h20" stroke-linecap="round" />
-                                        <path d="M9 10h6" stroke-linecap="round" />
-                                        <path d="M12 8v4" stroke-linecap="round" />
-                                    </svg>
-                                </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-teal-500/10 text-teal-600 dark:text-teal-300 border border-teal-500/30">
-                                    100W PD Output
-                                </span>
-                            </div>
+        <!-- 6. FEATURE SPOTLIGHT 2: SMART ECOSYSTEM (Hubble Pro Style - High-Tech Radar Dashboard - No Images) -->
 
-                            <!-- Header -->
-                            <div class="space-y-2">
-                                <span class="text-[11px] font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400">
-                                    HIGH-CAPACITY WORKSTATION
-                                </span>
-                                <h3 class="text-2xl font-black text-slate-900 dark:text-white">
-                                    Discovery Hub Series
-                                </h3>
-                                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
-                                    Heavy-duty multi-port laptop and mobile power station designed for travel, remote work, photography gear, and field expeditions. Fast charges laptops and phones simultaneously.
-                                </p>
-                            </div>
+        <section class="relative w-full overflow-hidden bg-neutral-100 min-h-[500px] sm:min-h-[580px] lg:min-h-[660px] flex items-center">
+            <!-- Background Video -->
+            <div class="absolute inset-0 w-full h-full overflow-hidden">
+                <video 
+                    playsinline 
+                    autoplay 
+                    loop 
+                    muted 
+                    preload="metadata"
+                    poster="{{ asset('videos/fast_charging_cables_poster.jpg') }}"
+                    class="w-full h-full object-cover object-center"
+                >
+                    <source src="{{ asset('videos/Digital Display Data Cable_VXPS_1.mp4') }}" type="video/mp4">
+                    {{-- <source src="https://www.pulsecharge.com.au/cdn/shop/videos/c/vp/95cec4bcf94e42c19705c4d0465f2fff/95cec4bcf94e42c19705c4d0465f2fff.HD-1080p-2.5Mbps-92169599.mp4?v=0" type="video/mp4"> --}}
+                </video>
+                <!-- Directional gradient overlay to ensure text contrast while keeping cable and phone clearly visible -->
+                <div class="absolute inset-0 bg-gradient-to-r from-neutral-100/90 via-neutral-100/50 to-transparent sm:from-neutral-100/80 sm:via-neutral-100/20 sm:to-transparent dark:from-slate-950/90 dark:via-slate-950/50 dark:to-transparent pointer-events-none"></div>
+            </div>
 
-                            <!-- Spec Matrix List -->
-                            <div class="space-y-2.5 pt-2 border-t border-gray-100 dark:border-slate-800/80 text-xs">
-                                <div class="flex items-center gap-2.5 text-slate-700 dark:text-slate-300">
-                                    <span class="w-4 h-4 rounded-full bg-teal-500/20 text-teal-600 dark:text-teal-400 flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
-                                    <span>27,000mAh TSA Airline Carry-On Approved</span>
-                                </div>
-                                <div class="flex items-center gap-2.5 text-slate-700 dark:text-slate-300">
-                                    <span class="w-4 h-4 rounded-full bg-teal-500/20 text-teal-600 dark:text-teal-400 flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
-                                    <span>100W Dual-Port USB-C Power Delivery</span>
-                                </div>
-                                <div class="flex items-center gap-2.5 text-slate-700 dark:text-slate-300">
-                                    <span class="w-4 h-4 rounded-full bg-teal-500/20 text-teal-600 dark:text-teal-400 flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
-                                    <span>Smart Digital LED Wattage &amp; Power Display</span>
-                                </div>
-                                <div class="flex items-center gap-2.5 text-slate-700 dark:text-slate-300">
-                                    <span class="w-4 h-4 rounded-full bg-teal-500/20 text-teal-600 dark:text-teal-400 flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
-                                    <span>Concurrent 3-Device Simultaneous Charging</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card Footer -->
-                        <div class="mt-8 pt-5 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between">
-                            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Laptops &amp; Pro Gear</span>
-                            <a href="{{ route('shop') }}" class="inline-flex items-center gap-1.5 text-xs font-bold text-teal-600 dark:text-teal-400 group-hover:text-teal-500 dark:group-hover:text-teal-300 group-hover:translate-x-1 transition-all">
-                                <span>Explore Series</span>
-                                <span>&rarr;</span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Format 3: HydroPower Smart Series -->
-                    <div class="group relative rounded-3xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800/80 p-7 hover:border-emerald-500/50 hover:shadow-2xl dark:hover:shadow-emerald-950/30 transition-all duration-300 flex flex-col justify-between">
-                        <div class="space-y-6">
-                            <!-- Card Top Icon & Format Pill -->
-                            <div class="flex items-center justify-between">
-                                <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center border border-emerald-500/20 shadow-inner group-hover:scale-105 transition-transform duration-300">
-                                    <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                                        <path d="M9 3h6v3H9z" />
-                                        <path d="M8 6h8a2 2 0 012 2v11a3 3 0 01-3 3H9a3 3 0 01-3-3V8a2 2 0 012-2z" />
-                                        <path d="M12 11v5m-2-2l2 2 2-2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </div>
-                                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-300 border border-emerald-500/30">
-                                    2-in-1 Modular
-                                </span>
-                            </div>
-
-                            <!-- Header -->
-                            <div class="space-y-2">
-                                <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                                    LIFESTYLE &amp; HYDRATION TECH
-                                </span>
-                                <h3 class="text-2xl font-black text-slate-900 dark:text-white">
-                                    HydroPower Smart Tech
-                                </h3>
-                                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
-                                    700mL double-walled vacuum insulated stainless flask engineered with a detachable modular wireless power bank base. Keeps drinks cold 24h while keeping your smartphone topped up.
-                                </p>
-                            </div>
-
-                            <!-- Spec Matrix List -->
-                            <div class="space-y-2.5 pt-2 border-t border-gray-100 dark:border-slate-800/80 text-xs">
-                                <div class="flex items-center gap-2.5 text-slate-700 dark:text-slate-300">
-                                    <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
-                                    <span>700mL Double-Wall Vacuum Insulated Pro Steel</span>
-                                </div>
-                                <div class="flex items-center gap-2.5 text-slate-700 dark:text-slate-300">
-                                    <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
-                                    <span>Detachable Modular Qi Wireless Charging Base</span>
-                                </div>
-                                <div class="flex items-center gap-2.5 text-slate-700 dark:text-slate-300">
-                                    <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
-                                    <span>24-Hour Cold &bull; 12-Hour Hot Thermal Retention</span>
-                                </div>
-                                <div class="flex items-center gap-2.5 text-slate-700 dark:text-slate-300">
-                                    <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
-                                    <span>BPA-Free 304 Stainless Steel &amp; Leak-Proof Lid</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card Footer -->
-                        <div class="mt-8 pt-5 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between">
-                            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Hydration &amp; Power</span>
-                            <a href="{{ route('shop') }}" class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400 group-hover:text-emerald-500 dark:group-hover:text-emerald-300 group-hover:translate-x-1 transition-all">
-                                <span>Explore Series</span>
-                                <span>&rarr;</span>
-                            </a>
-                        </div>
+            <!-- Content Overlay (Bottom-Left / Mid-Left) -->
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 sm:py-20 lg:py-24 ">
+                <div class="max-w-xl text-left">
+                    <p class="text-xs sm:text-sm font-semibold tracking-widest uppercase text-neutral-600 dark:text-neutral-400 mb-2 sm:mb-3">
+                        NEW!
+                    </p>
+                    <h2 class="text-2xl uppercase sm:text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight text-neutral-900 dark:text-white uppercase leading-tight mb-4 sm:mb-5">
+                        Fast Charging. Reliable Connection.
+                    </h2>
+                    <p class="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed max-w-md mb-6 sm:mb-8">
+                        Power your devices with high-quality charging cables designed for fast, reliable performance and everyday durability. Enjoy seamless connectivity and dependable charging wherever life takes you.
+                    </p>
+                    <div>
+                        <a 
+                            href="{{ route('shop') }}" 
+                            class="inline-block px-8 py-3.5 bg-green-900 hover:bg-yellow-500 text-white text-xs font-bold tracking-widest uppercase transition-all duration-200 shadow-md hover:shadow-lg active:scale-95"
+                        >
+                            SHOP NOW
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 6. FEATURE SPOTLIGHT 2: SMART ECOSYSTEM (Hubble Pro Style - High-Tech Radar Dashboard - No Images) -->
-        <section class="py-20 border-t border-gray-200 dark:border-slate-800/80 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white relative overflow-hidden transition-colors">
+
+
+
+
+
+
+
+
+
+        {{-- <section class="py-20 border-t border-gray-200 dark:border-slate-800/80 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white relative overflow-hidden transition-colors">
             <!-- Ambient High-Tech Glows -->
             <div class="absolute -top-32 left-1/4 w-96 h-96 bg-emerald-500/10 dark:bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
             <div class="absolute -bottom-32 right-1/4 w-96 h-96 bg-teal-500/10 dark:bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -756,7 +733,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
 
         <!-- 7. ABOUT US, PHILOSOPHY & CLIENT REVIEWS (Matched to Design Screenshots) -->
         <section id="about" class="py-20 bg-white dark:bg-slate-950 border-t border-gray-200 dark:border-slate-800/80 transition-colors">
@@ -1057,11 +1034,11 @@
                         @csrf
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">Full Name</label>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">Full Name <span class="text-rose-500">*</span></label>
                                 <input type="text" name="name" required placeholder="John Doe" class="w-full rounded-xl border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-950 px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/20">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">Email Address</label>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">Email Address <span class="text-rose-500">*</span></label>
                                 <input type="email" name="email" required placeholder="john@example.com" class="w-full rounded-xl border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-950 px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/20">
                             </div>
                         </div>
@@ -1072,7 +1049,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">Message</label>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">Message <span class="text-rose-500">*</span></label>
                             <textarea name="message" rows="4" required placeholder="How can our support team assist you?" class="w-full rounded-xl border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-950 px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/20 resize-none"></textarea>
                         </div>
 
@@ -1147,8 +1124,33 @@
         if (carouselEl) {
             carouselEl.addEventListener('mouseenter', () => clearInterval(carouselInterval));
             carouselEl.addEventListener('mouseleave', () => startCarouselTimer());
-            carouselEl.addEventListener('touchstart', () => clearInterval(carouselInterval), { passive: true });
-            carouselEl.addEventListener('touchend', () => startCarouselTimer(), { passive: true });
+
+            // Touch swipe gesture support for mobile phones
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            carouselEl.addEventListener('touchstart', (e) => {
+                clearInterval(carouselInterval);
+                if (e.touches && e.touches.length > 0) {
+                    touchStartX = e.touches[0].clientX;
+                }
+            }, { passive: true });
+
+            carouselEl.addEventListener('touchend', (e) => {
+                if (e.changedTouches && e.changedTouches.length > 0) {
+                    touchEndX = e.changedTouches[0].clientX;
+                    const diffX = touchStartX - touchEndX;
+                    if (Math.abs(diffX) > 40) {
+                        if (diffX > 0) {
+                            nextSlide();
+                        } else {
+                            prevSlide();
+                        }
+                    }
+                }
+                startCarouselTimer();
+            }, { passive: true });
+
             startCarouselTimer();
         }
     });

@@ -15,21 +15,38 @@ class EcommerceSeeder extends Seeder
      */
     public function run(): void
     {
+        $categories = [
+            ['name' => 'Charging & Power', 'slug' => 'charging-power'],
+            ['name' => 'Audio & Sound', 'slug' => 'audio-sound'],
+            ['name' => 'Gaming & Gear', 'slug' => 'gaming-gear'],
+            ['name' => 'Displays & Tech', 'slug' => 'displays-tech'],
+            ['name' => 'Smart Wearables', 'slug' => 'smart-wearables'],
+        ];
+
+        foreach ($categories as $cat) {
+            \App\Models\Category::firstOrCreate(
+                ['slug' => $cat['slug']],
+                ['name' => $cat['name']]
+            );
+        }
+
         $products = [
-            ['name' => 'Wireless Noise-Canceling Headphones', 'price' => 199.99, 'special_offer_price' => 169.99],
-            ['name' => 'Mechanical Gaming Keyboard RGB', 'price' => 89.99, 'special_offer_price' => 74.99],
-            ['name' => 'Ultra-Slim 4K Monitor 27"', 'price' => 349.50, 'special_offer_price' => null],
-            ['name' => 'Ergonomic Wireless Mouse', 'price' => 49.99, 'special_offer_price' => 39.99],
-            ['name' => 'USB-C Multi-Port Hub Adapter', 'price' => 39.99, 'special_offer_price' => null],
-            ['name' => 'Smart Fitness Smartwatch Pro', 'price' => 159.00, 'special_offer_price' => 129.00],
-            ['name' => 'Aluminum Laptop Stand', 'price' => 29.99, 'special_offer_price' => 24.99],
-            ['name' => 'Fast Wireless Charging Pad 15W', 'price' => 24.50, 'special_offer_price' => null],
+            ['name' => 'Wireless Noise-Canceling Headphones', 'price' => 199.99, 'special_offer_price' => 169.99, 'category_slug' => 'audio-sound'],
+            ['name' => 'Mechanical Gaming Keyboard RGB', 'price' => 89.99, 'special_offer_price' => 74.99, 'category_slug' => 'gaming-gear'],
+            ['name' => 'Ultra-Slim 4K Monitor 27"', 'price' => 349.50, 'special_offer_price' => null, 'category_slug' => 'displays-tech'],
+            ['name' => 'Ergonomic Wireless Mouse', 'price' => 49.99, 'special_offer_price' => 39.99, 'category_slug' => 'gaming-gear'],
+            ['name' => 'USB-C Multi-Port Hub Adapter', 'price' => 39.99, 'special_offer_price' => null, 'category_slug' => 'charging-power'],
+            ['name' => 'Smart Fitness Smartwatch Pro', 'price' => 159.00, 'special_offer_price' => 129.00, 'category_slug' => 'smart-wearables'],
+            ['name' => 'Aluminum Laptop Stand', 'price' => 29.99, 'special_offer_price' => 24.99, 'category_slug' => 'displays-tech'],
+            ['name' => 'Fast Wireless Charging Pad 15W', 'price' => 24.50, 'special_offer_price' => null, 'category_slug' => 'charging-power'],
         ];
 
         foreach ($products as $item) {
-            Product::firstOrCreate(
+            $catId = \App\Models\Category::where('slug', $item['category_slug'])->value('id');
+            Product::updateOrCreate(
                 ['slug' => Str::slug($item['name'])],
                 [
+                    'category_id' => $catId,
                     'name' => $item['name'],
                     'description' => 'High quality ' . $item['name'] . ' for VXPS eCommerce store.',
                     'price' => $item['price'],

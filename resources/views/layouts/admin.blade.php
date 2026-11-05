@@ -90,14 +90,29 @@
                 <span>Products</span>
             </a>
 
-            <a href="#" class="flex items-center justify-between px-3 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white transition-all">
+            @php
+                $pendingOrdersCount = \App\Models\Order::whereIn('status', ['pending', 'confirmed'])->count();
+                $totalOrdersCount = \App\Models\Order::count();
+            @endphp
+            <a 
+                href="{{ route('admin.orders.index') }}" 
+                class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ request()->routeIs('admin.orders.*') ? 'bg-emerald-600 text-white shadow-sm shadow-emerald-600/30' : 'text-slate-600 dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white' }}"
+            >
                 <div class="flex items-center gap-3">
                     <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                     </svg>
                     <span>Orders</span>
                 </div>
-                <span class="text-[10px] px-2 py-0.5 rounded-full bg-gray-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-gray-300 dark:border-slate-700/60">Ready</span>
+                @if($pendingOrdersCount > 0)
+                    <span class="text-[10px] px-2 py-0.5 rounded-full {{ request()->routeIs('admin.orders.*') ? 'bg-white text-emerald-700 font-bold' : 'bg-emerald-500 text-white font-bold' }}">
+                        {{ $pendingOrdersCount }}
+                    </span>
+                @else
+                    <span class="text-[10px] px-2 py-0.5 rounded-full {{ request()->routeIs('admin.orders.*') ? 'bg-emerald-700 text-emerald-100' : 'bg-gray-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-gray-300 dark:border-slate-700/60' }}">
+                        {{ $totalOrdersCount }}
+                    </span>
+                @endif
             </a>
 
             @php

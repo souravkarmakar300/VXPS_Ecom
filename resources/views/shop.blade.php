@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', $activeCategory ? $activeCategory->name . ' | VXPS Shop' : 'All Products | VXPS Shop')
+@section('meta_description', '')
+@section('meta_keywords', '')
 
 @section('meta')
     <meta name="description" content="Shop portable chargers, power banks, cables and smart tech essentials at VXPS Australia. 4-column catalog.">
@@ -65,7 +67,7 @@ body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; }
 {{-- Hero Catalog Banner --}}
         <section class="relative w-full overflow-hidden bg-slate-950">
             <div class="relative h-[250px] sm:h-[300px] lg:h-[340px]">
-                <img src="{{ asset('Modern Kids’ Gadgets Studio Showcase.png') }}" alt="VXPS All Products" class="absolute inset-0 w-full h-full object-cover object-center">
+                <img src="{{ asset('shop_img.png') }}" alt="VXPS All Products" class="absolute inset-0 w-full h-full object-cover object-center">
                 <div class="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/80 to-slate-950/45"></div>
                 <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center">
                     <nav class="inline-flex items-center gap-2 text-xs text-slate-300 mb-3">
@@ -290,7 +292,7 @@ body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; }
                                 <div class="md:col-span-3">
                                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Special Deals</label>
                                     <div class="relative">
-                                        <select name="offer" class="w-full rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-xs font-semibold text-slate-900 dark:text-white px-3.5 py-2.5 outline-none focus:border-indigo-500 transition-colors cursor-pointer appearance-none">
+                                        <select name="offer" id="filter-offer-select" class="w-full rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-xs font-semibold text-slate-900 dark:text-white px-3.5 py-2.5 outline-none focus:border-indigo-500 transition-colors cursor-pointer appearance-none">
                                             <option value="" @selected(empty($filters['offer']))>All Products</option>
                                             <option value="special" @selected(($filters['offer'] ?? '') === 'special')>Special Offers Only</option>
                                         </select>
@@ -483,101 +485,112 @@ body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; }
 
 @push('scripts')
 <script>
-// Interactive Dual Range Slider with 2-way sync
-        function initPriceRangeSlider() {
-            const rangeMin = document.getElementById('price-range-min');
-            const rangeMax = document.getElementById('price-range-max');
-            const highlight = document.getElementById('slider-highlight-bar');
-            const labelMin = document.getElementById('slider-min-label');
-            const labelMax = document.getElementById('slider-max-label');
-            const inputMin = document.getElementById('min_price_input');
-            const inputMax = document.getElementById('max_price_input');
+    // Toggle the collapsible filter drawer open / closed
+    function toggleFilterDrawer() {
+        const drawer = document.getElementById('filter-drawer');
+        if (!drawer) return;
+        drawer.classList.toggle('hidden');
+        if (!drawer.classList.contains('hidden')) {
+            initPriceRangeSlider();
+        }
+    }
 
-            if (!rangeMin || !rangeMax || !highlight) return;
+    // Interactive Dual Range Slider with 2-way sync
+    function initPriceRangeSlider() {
+        const rangeMin  = document.getElementById('price-range-min');
+        const rangeMax  = document.getElementById('price-range-max');
+        const highlight = document.getElementById('slider-highlight-bar');
+        const labelMin  = document.getElementById('slider-min-label');
+        const labelMax  = document.getElementById('slider-max-label');
+        const inputMin  = document.getElementById('min_price_input');
+        const inputMax  = document.getElementById('max_price_input');
 
-            const maxLimit = parseFloat(rangeMin.max) || 400;
-            const minGap = 5;
+        if (!rangeMin || !rangeMax || !highlight) return;
 
-            function updateUI(minVal, maxVal, fromSlider) {
-                // Keep min/max order
-                if (minVal > maxVal - minGap) {
-                    if (fromSlider === 'min') {
-                        minVal = maxVal - minGap;
-                        rangeMin.value = minVal;
-                    } else if (fromSlider === 'max') {
-                        maxVal = minVal + minGap;
-                        rangeMax.value = maxVal;
-                    }
-                }
+        const maxLimit = parseFloat(rangeMin.max) || 400;
+        const minGap   = 5;
 
-                // Bounds
-                minVal = Math.max(0, Math.min(minVal, maxLimit - minGap));
-                maxVal = Math.min(maxLimit, Math.max(maxVal, minVal + minGap));
-
-                // Position highlight bar
-                const minPercent = (minVal / maxLimit) * 100;
-                const maxPercent = (maxVal / maxLimit) * 100;
-                highlight.style.left = minPercent + '%';
-                highlight.style.width = Math.max(0, maxPercent - minPercent) + '%';
-
-                // Update text readout
-                if (labelMin) labelMin.textContent = Math.round(minVal);
-                if (labelMax) labelMax.textContent = Math.round(maxVal);
-
-                // Update input boxes
-                if (inputMin && fromSlider) {
-                    inputMin.value = minVal > 0 ? Math.round(minVal) : '';
-                }
-                if (inputMax && fromSlider) {
-                    inputMax.value = maxVal < maxLimit ? Math.round(maxVal) : '';
+        function updateUI(minVal, maxVal, fromSlider) {
+            // Keep min ≤ max - gap
+            if (minVal > maxVal - minGap) {
+                if (fromSlider === 'min') {
+                    minVal = maxVal - minGap;
+                    rangeMin.value = minVal;
+                } else if (fromSlider === 'max') {
+                    maxVal = minVal + minGap;
+                    rangeMax.value = maxVal;
                 }
             }
 
-            rangeMin.addEventListener('input', () => {
-                updateUI(parseFloat(rangeMin.value), parseFloat(rangeMax.value), 'min');
-            });
+            // Clamp to bounds
+            minVal = Math.max(0, Math.min(minVal, maxLimit - minGap));
+            maxVal = Math.min(maxLimit, Math.max(maxVal, minVal + minGap));
 
-            rangeMax.addEventListener('input', () => {
-                updateUI(parseFloat(rangeMin.value), parseFloat(rangeMax.value), 'max');
-            });
+            // Position highlight bar
+            const minPct = (minVal / maxLimit) * 100;
+            const maxPct = (maxVal / maxLimit) * 100;
+            highlight.style.left  = minPct + '%';
+            highlight.style.width = Math.max(0, maxPct - minPct) + '%';
 
-            if (inputMin) {
-                const handleMinInput = () => {
-                    let v = inputMin.value !== '' ? parseFloat(inputMin.value) : 0;
-                    if (isNaN(v) || v < 0) v = 0;
-                    let maxV = rangeMax.value !== '' ? parseFloat(rangeMax.value) : maxLimit;
+            // Update text labels
+            if (labelMin) labelMin.textContent = Math.round(minVal);
+            if (labelMax) labelMax.textContent = Math.round(maxVal);
+
+            // Sync number inputs (only when dragging sliders, not when typing)
+            if (fromSlider) {
+                if (inputMin) inputMin.value = minVal > 0 ? Math.round(minVal) : '';
+                if (inputMax) inputMax.value = maxVal < maxLimit ? Math.round(maxVal) : '';
+            }
+        }
+
+        // Slider → UI
+        rangeMin.addEventListener('input', () => updateUI(parseFloat(rangeMin.value), parseFloat(rangeMax.value), 'min'));
+        rangeMax.addEventListener('input', () => updateUI(parseFloat(rangeMin.value), parseFloat(rangeMax.value), 'max'));
+
+        // Number input → slider
+        function syncFromInput(inputEl, isMin) {
+            const handler = () => {
+                let v = inputEl.value !== '' ? parseFloat(inputEl.value) : (isMin ? 0 : maxLimit);
+                if (isNaN(v)) v = isMin ? 0 : maxLimit;
+                if (isMin) {
+                    v = Math.max(0, v);
+                    let maxV = parseFloat(rangeMax.value) || maxLimit;
                     if (v > maxV - minGap) v = Math.max(0, maxV - minGap);
                     rangeMin.value = v;
-                    updateUI(v, maxV, null);
-                };
-                inputMin.addEventListener('input', handleMinInput);
-                inputMin.addEventListener('change', handleMinInput);
-            }
-
-            if (inputMax) {
-                const handleMaxInput = () => {
-                    let v = inputMax.value !== '' ? parseFloat(inputMax.value) : maxLimit;
-                    if (isNaN(v) || v > maxLimit) v = maxLimit;
-                    let minV = rangeMin.value !== '' ? parseFloat(rangeMin.value) : 0;
+                    updateUI(v, parseFloat(rangeMax.value), null);
+                } else {
+                    v = Math.min(maxLimit, v);
+                    let minV = parseFloat(rangeMin.value) || 0;
                     if (v < minV + minGap) v = Math.min(maxLimit, minV + minGap);
                     rangeMax.value = v;
-                    updateUI(minV, v, null);
-                };
-                inputMax.addEventListener('input', handleMaxInput);
-                inputMax.addEventListener('change', handleMaxInput);
-            }
-
-            // Initial paint
-            updateUI(parseFloat(rangeMin.value), parseFloat(rangeMax.value), null);
+                    updateUI(parseFloat(rangeMin.value), v, null);
+                }
+            };
+            inputEl.addEventListener('input',  handler);
+            inputEl.addEventListener('change', handler);
         }
+        if (inputMin) syncFromInput(inputMin, true);
+        if (inputMax) syncFromInput(inputMax, false);
 
-        // Horizontal smooth scroll for Category Carousel
-        function scrollCategoryCarousel(direction) {
-            const track = document.getElementById('categoryCarouselTrack');
-            if (track) {
-                const scrollAmount = (track.clientWidth * 0.75) * direction;
-                track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-            }
+        // Initial render
+        updateUI(parseFloat(rangeMin.value), parseFloat(rangeMax.value), null);
+    }
+
+    // Horizontal smooth scroll for Category Carousel
+    function scrollCategoryCarousel(direction) {
+        const track = document.getElementById('categoryCarouselTrack');
+        if (track) {
+            track.scrollBy({ left: track.clientWidth * 0.75 * direction, behavior: 'smooth' });
         }
+    }
+
+    // Initialise on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        // If filter drawer is already open (active filters), init the slider immediately
+        const drawer = document.getElementById('filter-drawer');
+        if (drawer && !drawer.classList.contains('hidden')) {
+            initPriceRangeSlider();
+        }
+    });
 </script>
 @endpush

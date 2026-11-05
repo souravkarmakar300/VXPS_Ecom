@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
@@ -53,11 +54,19 @@ Route::get('/', function () {
         ->shuffle()
         ->values();
 
-    return view('welcome', compact('products'));
+    // 3 Random products across all categories for Essential Everyday Showcase section
+    $essentialProducts = \App\Models\Product::with('category')
+        ->where('status', 'active')
+        ->inRandomOrder()
+        ->take(3)
+        ->get();
+
+    return view('welcome', compact('products', 'essentialProducts'));
 })->name('home');
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/product/{slug}', [ShopController::class, 'show'])->name('product.show');
+Route::get('/product-detail/{slug}', [ShopController::class, 'show'])->name('product.detail');
 
 // Checkout & Cart Routes
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
@@ -70,6 +79,10 @@ Route::get('/checkout/success/{order_number}', [CheckoutController::class, 'succ
 Route::get('/payment/config', [PaymentController::class, 'config'])->name('payment.config');
 Route::post('/payment/intent', [PaymentController::class, 'createIntent'])->name('payment.intent');
 Route::post('/payment/confirm', [PaymentController::class, 'confirm'])->name('payment.confirm');
+Route::post('/payment/checkout-session', [PaymentController::class, 'checkoutSession'])->name('payment.checkout.session');
+Route::get('/payment/checkout/success', [PaymentController::class, 'checkoutSuccess'])->name('payment.checkout.success');
+Route::get('/payment/demo-pay', [PaymentController::class, 'demoPay'])->name('payment.demo');
+Route::post('/payment/demo-pay/complete', [PaymentController::class, 'demoPayComplete'])->name('payment.demo.complete');
 
 Route::get('/api/categories', function () {
     if (!\Illuminate\Support\Facades\Schema::hasTable('categories')) {
@@ -164,16 +177,19 @@ Route::get('/test-mail', function (\Illuminate\Http\Request $request) {
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->group(function () {
+
     // Guest Admin Routes
-    Route::middleware(['admin.guest'])->group(function () {
+    // General Limit: 10 Requests Per Minute
+    Route::middleware(['admin.guest','throttle:10,1'])->group(function () {
         Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
         Route::post('/login', [AdminAuthController::class, 'login'])->name('login.submit');
-        // Route::get('/register', [AdminAuthController::class, 'showRegister'])->name('register');
-        // Route::post('/register', [AdminAuthController::class, 'register'])->name('register.submit');
+        Route::get('/register', [AdminAuthController::class, 'showRegister'])->name('register');
+        Route::post('/register', [AdminAuthController::class, 'register'])->name('register.submit');
     });
 
     // Authenticated Admin Routes
-    Route::middleware(['admin.auth'])->group(function () {
+    // Limit: 60 Requests Per Minute
+    Route::middleware(['admin.auth','throttle:60,1'])->group(function () {
         Route::get('/', function () {
             return redirect()->route('admin.dashboard');
         });
@@ -192,6 +208,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
+        // Orders Management
+        Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+        Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.update-status');
+        Route::delete('/orders/{order}', [AdminOrderController::class, 'destroy'])->name('orders.destroy');
+
         // Customer Contacts & Inquiries
         Route::get('/contacts', [AdminContactController::class, 'index'])->name('contacts.index');
         Route::get('/contacts/{contact}', [AdminContactController::class, 'show'])->name('contacts.show');
@@ -199,3 +221,36 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/contacts/{contact}', [AdminContactController::class, 'destroy'])->name('contacts.destroy');
     });
 });
+
+
+// VXPS AI Chatbot Routes
+
+Route::prefix('chatbot')
+    ->name('chatbot.')
+    ->group(function () {
+
+        // Chat History: 30 requests per minute
+        Route::get('/history', [
+            \App\Http\Controllers\ChatbotController::class,
+            'history'
+        ])
+            ->middleware('throttle:30,1')
+            ->name('history');
+
+        // Send Message: 10 requests per minute
+        Route::post('/message', [
+            \App\Http\Controllers\ChatbotController::class,
+            'send'
+        ])
+            ->middleware('throttle:10,1')
+            ->name('send');
+
+        // Reset Chat: 3 requests per minute
+        Route::post('/reset', [
+            \App\Http\Controllers\ChatbotController::class,
+            'reset'
+        ])
+            ->middleware('throttle:3,1')
+            ->name('reset');
+
+    });

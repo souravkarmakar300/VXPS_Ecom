@@ -28,7 +28,7 @@ class ShopController extends Controller
         }
 
         // Filter: special offer only
-        if ($request->string('offer') === 'special') {
+        if ($request->input('offer') === 'special') {
             $query->whereNotNull('special_offer_price')
                 ->where('special_offer_price', '>', 0);
         }
@@ -51,7 +51,7 @@ class ShopController extends Controller
         }
 
         // Sort
-        $sort = $request->string('sort')->toString() ?: 'featured';
+        $sort = $request->input('sort') ?: 'featured';
 
         match ($sort) {
             'best-selling', 'featured' => $query->latest(),
@@ -102,19 +102,39 @@ class ShopController extends Controller
             })
             ->firstOrFail();
 
-        $product->card_type = ($product->special_offer_price !== null && (float) $product->special_offer_price > 0)
-            ? 'special'
-            : 'regular';
+        $hasOffer = $product->special_offer_price !== null && (float) $product->special_offer_price > 0;
+        $originalPrice = (float) $product->price;
+        $effectivePrice = $hasOffer ? (float) $product->special_offer_price : $originalPrice;
+        $savingsAmount = $hasOffer ? max(0, $originalPrice - $effectivePrice) : 0.0;
+        $discountPercent = ($hasOffer && $originalPrice > 0)
+            ? (int) round(($savingsAmount / $originalPrice) * 100)
+            : 0;
+
+        $product->card_type = $hasOffer ? 'special' : 'regular';
+
+        $galleryImages = collect($product->images ?? [])
+            ->filter()
+            ->values()
+            ->all();
+
+        if (empty($galleryImages) && $product->image) {
+            $galleryImages = [$product->image];
+        }
+
+        $galleryImages = array_values(array_map(
+            fn ($path) => str_starts_with((string) $path, 'http')
+                ? (string) $path
+                : asset('storage/'.$path),
+            $galleryImages
+        ));
+
+        $mainImage = $galleryImages[0] ?? asset('images/logo.png');
 
         // Related / recommended products
         $relatedProducts = Product::with('category')
             ->where('status', 'active')
             ->where('id', '!=', $product->id)
-            ->where(function ($q) use ($product) {
-                if ($product->category_id) {
-                    $q->where('category_id', $product->category_id);
-                }
-            })
+            ->when($product->category_id, fn ($q) => $q->where('category_id', $product->category_id))
             ->latest()
             ->take(4)
             ->get();
@@ -138,6 +158,16 @@ class ShopController extends Controller
             return $p;
         });
 
-        return view('product-detail', compact('product', 'relatedProducts'));
+        return view('product-detail', compact(
+            'product',
+            'relatedProducts',
+            'hasOffer',
+            'originalPrice',
+            'effectivePrice',
+            'savingsAmount',
+            'discountPercent',
+            'galleryImages',
+            'mainImage'
+        ));
     }
 }

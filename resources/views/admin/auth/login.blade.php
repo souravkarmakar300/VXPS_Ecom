@@ -153,14 +153,14 @@
     </form>
 
     <!-- Footer Register Link -->
-    {{-- <div class="mt-6 pt-5 border-t border-slate-800 text-center">
+    <div class="mt-6 pt-5 border-t border-slate-800 text-center">
         <p class="text-xs text-slate-400">
             Need to add a new administrator?
             <a href="{{ route('admin.register') }}" class="text-emerald-400 hover:text-emerald-300 font-semibold ml-1 transition-colors">
                 Register Admin &rarr;
             </a>
         </p>
-    </div> --}}
+    </div>
 </div>
 
 <script>

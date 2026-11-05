@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Contact Us | VXPS - Everyday Electronics Australia')
+@section('meta_description', '')
+@section('meta_keywords', '')
 
 @section('meta')
     <meta name="description" content="Stay in touch with VXPS Australia. Contact our customer care team via phone (+61 426 762 285), email (anthonyh@vxpowertech.com), or our Adelaide headquarters.">
@@ -323,7 +325,7 @@
         </section>
 
         <!-- 4. VALUE PROPOSITIONS & GUARANTEES (Image Match) -->
-        <section class="py-12 sm:py-16 bg-white dark:bg-slate-950 border-y border-gray-200 dark:border-slate-800/80 transition-colors">
+        {{-- <section class="py-12 sm:py-16 bg-white dark:bg-slate-950 border-y border-gray-200 dark:border-slate-800/80 transition-colors">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                     <!-- Card 1: Free Shipping -->
@@ -359,7 +361,9 @@
                         </svg>
                         <div>
                             <p class="text-xs text-gray-500 dark:text-slate-400 font-medium">Support 24/7</p>
-                            <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mt-0.5 tracking-tight">+61 426 762 285</h3>
+                            <a href="tel:+61426762285" class="hover:text-yellow-400 transition-colors font-bold">
+                                +61 426 762 285
+                            </a>
                         </div>
                     </div>
 
@@ -406,5 +410,5 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
 @endsection
